@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
+
+# rtbk-claude-design-flow pre-commit hook
+# 파이프라인 산출물 무결성에 대한 가벼운 점검을 수행합니다.
+
+set -e
+
+echo "[pre-commit] rtbk-claude-design-flow 점검 시작"
+
+# 1) 필수 디렉토리 존재 확인
+for dir in data/00-core-ui data/01-references data/02-cases data/03-code data/04-review; do
+  if [ ! -d "$dir" ]; then
+    echo "[pre-commit] 경고: 필수 디렉토리 누락 -> $dir"
+  fi
+done
+
+# 2) case-screens.md 상태 대장 존재 확인
+if [ ! -f "data/02-cases/case-screens.md" ]; then
+  echo "[pre-commit] 경고: data/02-cases/case-screens.md 가 없습니다."
+fi
+
+echo "[pre-commit] 점검 완료"
+exit 0
