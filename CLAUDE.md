@@ -1,17 +1,23 @@
 # rtbk-claude-design-flow
 
-Figma 디자인을 입력으로 받아, 레퍼런스 케이스를 문서화하고, 화면을 코드로 구현한 뒤,
-시각적 채점과 코드 리뷰를 거쳐 완료까지 이어지는 **디자인 → 코드 파이프라인**입니다.
+Figma 디자인을 입력으로 받아, 레퍼런스 케이스를 문서화하고, **Claude Design(claude.ai/design)에서 화면·코드를 만들어
+`/design-sync`로 가져온 뒤**, 시각적 채점과 코드 리뷰를 거쳐 완료까지 이어지는 **디자인 → 코드 파이프라인**입니다.
+
+> **코드의 출처는 Claude Design입니다.** 화면 코드는 claude.ai/design에서 생성·수정하고,
+> `/design-sync`로 `data/03-code/`에 pull합니다. `02-coder`는 코드를 처음부터 작성하지 않고,
+> **가져온 코드를 통합·검증하고 리뷰 피드백을 반영**하는 역할입니다.
 
 ## 파이프라인 개요
 
 ```
 Figma URL
-  └─▶ 00-figma-fetcher   구조 데이터 + 스크린샷 수집        → data/00-core-ui/
-  └─▶ (사람) 레퍼런스 문서 작성                              → data/01-references/case-N/case-N.md
-  └─▶ 01-case-deriver    케이스 도출 → 프롬프트 초안 → 1차 채점 → data/02-design-preceeding/
-  └─▶ 02-coder           케이스별 화면 구현                  → data/03-code/
-  └─▶ 코드 리뷰 오케스트레이션 (메인 세션)                  → data/04-review/
+  └─▶ 00-figma-fetcher   구조 데이터 + 스크린샷 수집          → data/00-core-ui/
+  └─▶ (사람) 레퍼런스 문서 작성                                → data/01-references/case-N/case-N.md
+  └─▶ 01-case-deriver    케이스 도출 → 프롬프트 초안 → 1차 채점  → data/02-design-preceeding/
+  └─▶ (사람) prompt.md 검토·수정 → claude.ai/design에서 시안 생성·수정 → Claude Design 프로젝트
+  └─▶ /design-sync (메인 세션)  Claude Design 코드 pull        → data/03-code/
+  └─▶ 02-coder           pull된 코드 통합·검증·리뷰수정         → data/03-code/
+  └─▶ 코드 리뷰 오케스트레이션 (메인 세션)                    → data/04-review/
 ```
 
 ## 에이전트
@@ -20,7 +26,7 @@ Figma URL
 | --- | --- | --- |
 | `00-figma-fetcher` | Figma MCP로 구조 데이터를 가져오고 Playwright로 스크린샷 캡처 (읽기 전용) | `data/00-core-ui/` |
 | `01-case-deriver` | 레퍼런스 문서 확인(사람 작성, Step 0) → 케이스 도출(Step 1) → 프롬프트 초안 생성(Step 2) → 결과 1차 채점(Step 3) | `data/02-design-preceeding/` |
-| `02-coder` | 케이스별 화면을 실제 코드로 구현 | `data/03-code/` |
+| `02-coder` | **Claude Design에서 pull한 코드**를 로컬에 통합·검증하고 리뷰 피드백을 반영 (처음부터 작성하지 않음) | `data/03-code/` |
 
 ## 스킬
 
@@ -28,14 +34,33 @@ Figma URL
 | --- | --- |
 | `design-system` | 코어 UI 토큰 + 컴포넌트 상태별 스타일·인터랙션을 한 번 정의(HOW). `02-coder`·`01-case-deriver`가 공통 참조 |
 | `visual-verdict` | 생성 화면을 레퍼런스와 비교해 score/verdict를 JSON으로 반환 (통과 기준 85점) |
+| `design-sync` | Claude Design(claude.ai/design) 프로젝트와 로컬 코드를 동기화. Claude Design 코드를 `data/03-code/`로 pull. **메인 세션 전용** |
 
 ## 데이터 레이아웃
 
 - `data/00-core-ui/` — Figma에서 수집한 코어 UI 구조 데이터·토큰, `component-states.md`(추출된 컴포넌트 상태), 스크린샷
 - `data/01-references/case-N/` — 레퍼런스 이미지와 **사람이 작성한** `case-N.md`(출처·시나리오·기능·신뢰도)
 - `data/02-design-preceeding/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의 + `prompt.md` 프롬프트 초안)
-- `data/03-code/` — 구현된 코드
+- `data/03-code/` — Claude Design에서 pull한 코드 + `02-coder`의 통합·수정 결과
 - `data/04-review/` — `review-{N}.md` 코드 리뷰 결과
+
+## 디자인 코드 가져오기 (design-sync 오케스트레이션)
+
+Claude Design에서 만든 화면 코드는 **메인 세션**이 `/design-sync`(DesignSync 도구)로 가져옵니다.
+`02-coder`는 서브에이전트라 `/design-sync`를 직접 호출할 수 없으므로, **pull은 메인 세션이 담당**합니다
+(코드 리뷰와 같은 패턴).
+
+절차 (케이스 N에 대해):
+
+1. **대상 프로젝트 확인** — 사람이 시안을 저장한 Claude Design **design-system 프로젝트**를 지정한다.
+   (예: "Wanted Design System"). `list_projects`로 목록을 확인할 수 있다.
+2. **pull** — 메인 세션이 `/design-sync`로 해당 프로젝트의 코드 파일을 `data/03-code/case-N/`로 가져온다.
+3. **통합·검증** — `02-coder`를 호출해 가져온 코드를 로컬에서 실행 가능하도록 통합하고,
+   `design-system` 토큰·상태 규칙과의 일관성을 확인한다. `npm run dev` 등으로 동작을 검증한다.
+4. 이후 아래 **코드 리뷰 오케스트레이션**으로 넘어간다.
+
+> `/design-sync`는 claude.ai 로그인이 필요하다. 로그인·design 접근 권한이 없으면
+> 중단하고 사람에게 안내한다(`/design-login` 또는 claude.ai 커넥터 설정).
 
 ## 코드 리뷰 오케스트레이션
 
@@ -68,6 +93,8 @@ Figma URL
 - Figma에 대한 **쓰기 작업은 절대 하지 않는다** (읽기·스크린샷 전용).
 - 로그인 세션이 없으면 진행을 **중단하고 사람에게 안내**한다.
 - 필수 도구(Figma MCP, Playwright, Codex CLI 플러그인)가 없으면 중단하고 설치를 요청한다.
+- **`/design-sync`는 claude.ai 로그인·design 접근 권한이 필요하다.** 없으면 중단하고
+  사람에게 안내한다(`/design-login` 또는 claude.ai 커넥터 설정). pull 없이 `02-coder`를 돌리지 않는다.
 - **`case-N.md`(레퍼런스 문서)는 사람이 작성한다.** 에이전트가 임의로 작성·덮어쓰지 않으며,
   이미지가 있는데 문서가 없으면 진행을 중단하고 사람에게 작성을 요청한다.
 - **디자인 시스템 컴포넌트 상태 규칙은 검증 후에만 코드화한다.** `design-system` 스킬의
