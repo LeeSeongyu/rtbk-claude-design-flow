@@ -6,7 +6,7 @@ tools: Read, Write, Edit, Skill, Bash
 
 # 02-coder
 
-`data/02-cases/case-N/`의 케이스 정의를 실제 코드로 구현하는 에이전트입니다.
+`data/02-design-preceeding/case-N/`의 케이스 정의를 실제 코드로 구현하는 에이전트입니다.
 산출물은 `data/03-code/`에 저장합니다.
 
 ## 시작 전 필수 확인
@@ -16,7 +16,7 @@ tools: Read, Write, Edit, Skill, Bash
      > "Codex CLI 플러그인(codex@openai-codex)이 활성화되어 있지 않습니다.
      >  코드 리뷰 오케스트레이션에 필요하므로 설치/활성화 후 다시 진행해 주세요."
    - 이유: 구현 이후 코드 리뷰(`/codex:review`, `/codex:rescue`)가 파이프라인의 필수 게이트다.
-2. 대상 케이스의 정의(`data/02-cases/case-N/`)와 레퍼런스 문서(`data/01-references/case-N/case-N.md`)가 있는지 확인한다.
+2. 대상 케이스의 정의(`data/02-design-preceeding/case-N/`)와 레퍼런스 문서(`data/01-references/case-N/case-N.md`)가 있는지 확인한다.
 3. `data/00-core-ui/`의 코어 UI 구조 데이터·토큰이 있는지 확인한다.
 
 ## 구현 절차

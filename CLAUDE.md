@@ -9,7 +9,7 @@ Figma 디자인을 입력으로 받아, 레퍼런스 케이스를 문서화하�
 Figma URL
   └─▶ 00-figma-fetcher   구조 데이터 + 스크린샷 수집        → data/00-core-ui/
   └─▶ (사람) 레퍼런스 문서 작성                              → data/01-references/case-N/case-N.md
-  └─▶ 01-case-deriver    케이스 도출 → 프롬프트 초안 → 1차 채점 → data/02-cases/
+  └─▶ 01-case-deriver    케이스 도출 → 프롬프트 초안 → 1차 채점 → data/02-design-preceeding/
   └─▶ 02-coder           케이스별 화면 구현                  → data/03-code/
   └─▶ 코드 리뷰 오케스트레이션 (메인 세션)                  → data/04-review/
 ```
@@ -19,7 +19,7 @@ Figma URL
 | 에이전트 | 역할 | 산출물 |
 | --- | --- | --- |
 | `00-figma-fetcher` | Figma MCP로 구조 데이터를 가져오고 Playwright로 스크린샷 캡처 (읽기 전용) | `data/00-core-ui/` |
-| `01-case-deriver` | 레퍼런스 문서 확인(사람 작성, Step 0) → 케이스 도출(Step 1) → 프롬프트 초안 생성(Step 2) → 결과 1차 채점(Step 3) | `data/02-cases/` |
+| `01-case-deriver` | 레퍼런스 문서 확인(사람 작성, Step 0) → 케이스 도출(Step 1) → 프롬프트 초안 생성(Step 2) → 결과 1차 채점(Step 3) | `data/02-design-preceeding/` |
 | `02-coder` | 케이스별 화면을 실제 코드로 구현 | `data/03-code/` |
 
 ## 스킬
@@ -33,7 +33,7 @@ Figma URL
 
 - `data/00-core-ui/` — Figma에서 수집한 코어 UI 구조 데이터와 스크린샷
 - `data/01-references/case-N/` — 레퍼런스 이미지와 **사람이 작성한** `case-N.md`(출처·시나리오·기능·신뢰도)
-- `data/02-cases/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의 + `prompt.md` 프롬프트 초안)
+- `data/02-design-preceeding/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의 + `prompt.md` 프롬프트 초안)
 - `data/03-code/` — 구현된 코드
 - `data/04-review/` — `review-{N}.md` 코드 리뷰 결과
 
@@ -57,7 +57,7 @@ Figma URL
 > **완료 규칙:** 리뷰가 **PASS** 될 때까지 해당 케이스를 완료로 표시하지 않는다.
 > `case-screens.md`의 상태는 PASS 시점에만 "완료"로 갱신한다.
 
-## 상태 값 규약 (`data/02-cases/case-screens.md`)
+## 상태 값 규약 (`data/02-design-preceeding/case-screens.md`)
 
 - `생성중` — 화면 구현 진행 중 또는 1차 채점 미통과(85점 미만)
 - `검토중` — 1차 채점 통과(85점 이상), 코드 리뷰 대기/진행 중

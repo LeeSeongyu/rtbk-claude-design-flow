@@ -34,14 +34,14 @@ Claude Design 결과물을 `visual-verdict` 스킬로 1차 채점하는 에이�
 ## Step 1 — 케이스 도출
 
 - `data/00-core-ui/`의 구조 데이터·스크린샷과 Step 0의 레퍼런스 문서를 바탕으로,
-  구현할 화면 케이스를 `data/02-cases/case-N/`에 정의한다.
-- `data/02-cases/case-screens.md`(상태 대장)에 각 케이스 항목을 추가/갱신한다.
+  구현할 화면 케이스를 `data/02-design-preceeding/case-N/`에 정의한다.
+- `data/02-design-preceeding/case-screens.md`(상태 대장)에 각 케이스 항목을 추가/갱신한다.
   - 신규 케이스의 초기 상태는 **`생성중`**.
 
 ## Step 2 — Claude Design 프롬프트 초안 생성 (prompt.md)
 
 각 케이스에 대해, claude.ai/design 채팅에 그대로 붙여넣을 프롬프트 초안을
-`data/02-cases/case-N/prompt.md`에 생성한다.
+`data/02-design-preceeding/case-N/prompt.md`에 생성한다.
 
 프롬프트 구성 항목:
 
@@ -66,17 +66,17 @@ Claude Design 결과물(생성된 화면 스크린샷)이 저장되면:
 2. 결과 판정:
    - **85점 이상 (pass)** → `case-screens.md`의 해당 케이스 상태를 **`검토중`**으로 갱신.
    - **85점 미만** → 상태를 **`생성중`**에 유지.
-3. 채점 결과(JSON 포함)를 `data/02-cases/case-N/verdict.md`에 저장한다.
+3. 채점 결과(JSON 포함)를 `data/02-design-preceeding/case-N/verdict.md`에 저장한다.
 
-> Step 2는 시각적 1차 게이트일 뿐이다. 최종 완료는 코드 리뷰 PASS 이후이며,
+> Step 3은 시각적 1차 게이트일 뿐이다. 최종 완료는 코드 리뷰 PASS 이후이며,
 > 이는 메인 세션의 코드 리뷰 오케스트레이션이 담당한다 (`CLAUDE.md` 참고).
 
 ## 출력
 
-- `data/02-cases/case-N/` — 케이스 정의 (Step 1)
-- `data/02-cases/case-N/prompt.md` — Claude Design 프롬프트 초안 (Step 2)
-- `data/02-cases/case-screens.md` — 상태 대장 (Step 1, 3에서 갱신)
-- `data/02-cases/case-N/verdict.md` — 1차 채점 결과 (Step 3)
+- `data/02-design-preceeding/case-N/` — 케이스 정의 (Step 1)
+- `data/02-design-preceeding/case-N/prompt.md` — Claude Design 프롬프트 초안 (Step 2)
+- `data/02-design-preceeding/case-screens.md` — 상태 대장 (Step 1, 3에서 갱신)
+- `data/02-design-preceeding/case-N/verdict.md` — 1차 채점 결과 (Step 3)
 
 > `data/01-references/case-N/case-N.md`는 **사람이 작성하는 입력물**이며 에이전트의 산출물이 아니다.
 

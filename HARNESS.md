@@ -20,7 +20,7 @@
 
 ### 2. 케이스 도출 — `01-case-deriver`
 - **Step 0** 레퍼런스 케이스 문서화 → `data/01-references/case-N/case-N.md`
-- **Step 1** 케이스 도출 → `data/02-cases/case-N/`, `case-screens.md`
+- **Step 1** 케이스 도출 → `data/02-design-preceeding/case-N/`, `case-screens.md`
 - **Step 2** 결과 1차 채점 (`visual-verdict`) → 상태 갱신 + `verdict.md`
 
 ### 3. 코드 구현 — `02-coder`

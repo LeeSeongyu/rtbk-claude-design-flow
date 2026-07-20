@@ -63,5 +63,5 @@ description: 생성된 화면 스크린샷을 레퍼런스 이미지와 비교�
 ## 사용처
 
 - `01-case-deriver`의 **Step 2 (결과 1차 채점)**에서 호출된다.
-- 결과는 `data/02-cases/case-N/verdict.md`에 저장되고,
+- 결과는 `data/02-design-preceeding/case-N/verdict.md`에 저장되고,
   `pass`면 `case-screens.md` 상태를 `검토중`으로 갱신한다.
