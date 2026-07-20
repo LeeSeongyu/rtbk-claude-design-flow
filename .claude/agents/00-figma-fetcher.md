@@ -34,6 +34,20 @@ Figma 디자인의 **구조 데이터**와 **실제 스크린샷**을 수집하�
 - 각 결과를 `data/00-core-ui/`에 구조화된 파일로 저장한다.
   - 예: `metadata.json`, `design-context.md`, `variables.json`
 
+### 2.5) 컴포넌트 상태 추출 (variant + 인터랙션)
+> **토큰(variables)만으로는 "버튼이 hover되면 어떤 상태인가" 같은 상태 규칙이 안 채워진다.**
+> 그 정보는 디자이너가 **컴포넌트 variant**나 **프로토타입 인터랙션**으로 그려놨을 때 Figma에 존재하므로,
+> 여기서 명시적으로 추출한다.
+
+- `get_metadata`/`get_design_context` 결과에서 다음을 찾아 정리한다:
+  - **Variant set의 상태 속성** — 예: `State=Default/Hover/Pressed/Focused/Disabled`,
+    각 variant의 스타일 차이(배경·보더·opacity 등)를 **토큰 이름 기준**으로 기록.
+  - **프로토타입 인터랙션** — 노드에 걸린 on-click/on-hover 등 트리거와 목적지(상태 전환).
+- 결과를 `data/00-core-ui/component-states.md`에 컴포넌트별로 저장한다.
+  - **Figma에서 실제로 확인된 상태만 "추출됨(Figma)"로 표기한다.**
+    variant/인터랙션이 없어 확인 불가한 상태는 **"미확인"으로 남기고 임의로 지어내지 않는다**
+    (그 부분은 사람이 `design-system` 스킬에서 확정한다).
+
 ### 3) 스크린샷 캡처 (Playwright)
 - Playwright로 실제 Figma URL에 접속한다.
 - 대상 프레임/화면의 스크린샷을 캡처한다.
@@ -48,6 +62,7 @@ Figma 디자인의 **구조 데이터**와 **실제 스크린샷**을 수집하�
 
 - `data/00-core-ui/` 하위:
   - 구조 데이터 파일 (metadata / design context / variables)
+  - `component-states.md` — 추출된 컴포넌트 variant 상태·인터랙션 (미확인은 미확인으로 표기)
   - `screenshots/` 스크린샷
   - `README.md` 수집 요약
 

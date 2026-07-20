@@ -31,7 +31,7 @@ Figma URL
 
 ## 데이터 레이아웃
 
-- `data/00-core-ui/` — Figma에서 수집한 코어 UI 구조 데이터와 스크린샷
+- `data/00-core-ui/` — Figma에서 수집한 코어 UI 구조 데이터·토큰, `component-states.md`(추출된 컴포넌트 상태), 스크린샷
 - `data/01-references/case-N/` — 레퍼런스 이미지와 **사람이 작성한** `case-N.md`(출처·시나리오·기능·신뢰도)
 - `data/02-design-preceeding/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의 + `prompt.md` 프롬프트 초안)
 - `data/03-code/` — 구현된 코드
@@ -70,3 +70,6 @@ Figma URL
 - 필수 도구(Figma MCP, Playwright, Codex CLI 플러그인)가 없으면 중단하고 설치를 요청한다.
 - **`case-N.md`(레퍼런스 문서)는 사람이 작성한다.** 에이전트가 임의로 작성·덮어쓰지 않으며,
   이미지가 있는데 문서가 없으면 진행을 중단하고 사람에게 작성을 요청한다.
+- **디자인 시스템 컴포넌트 상태 규칙은 검증 후에만 코드화한다.** `design-system` 스킬의
+  `component-rules-verified`가 `false`이면 `02-coder`는 중단한다. 상태 규칙은 추정치가 아니라
+  코어 UI 수집값(`data/00-core-ui/component-states.md`)에 맞춰 사람이 확정한 것이어야 한다.

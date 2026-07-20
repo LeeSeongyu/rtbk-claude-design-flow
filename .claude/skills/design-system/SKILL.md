@@ -24,6 +24,25 @@ description: 코어 UI의 디자인 시스템. 모든 화면에 공통 적용되
 - 아래 **컴포넌트 상태 표는 코어 UI 수집 전까지 "초기 기본값(초안)"**이다.
   `data/00-core-ui/` 수집 후 실제 값·상태로 반드시 조정한다. 미검증 값을 확정 규칙처럼 취급하지 않는다.
 
+## 검증 상태 (component-rules-verified)
+
+<!-- 사람이 아래 절차를 마친 뒤 false → true 로 바꾼다. 02-coder는 이 값이 false면 중단한다. -->
+
+```
+component-rules-verified: false
+```
+
+- **의미** — 아래 "컴포넌트 상태 규칙"이 코어 UI(실제 디자인)에 맞춰 검증됐는지 여부.
+  `false`인 동안 규칙은 제 추정치일 수 있어, **`02-coder`는 코드 작성을 중단하고 검증을 요청한다.**
+- **검증 절차 (사람, 1회)**
+  1. `00-figma-fetcher`를 실행해 `data/00-core-ui/component-states.md`를 생성한다.
+  2. `component-states.md`에서 **"추출됨(Figma)"** 인 상태 → 아래 표의 값을 그에 맞게 조정하고 출처를 `추출`로.
+  3. Figma에 없어 **"미확인"** 인 상태(타이밍·미세 동작 등) → 사람이 값을 정하고 출처를 `확정`으로.
+  4. 각 상태 행의 **출처**가 모두 `추출` 또는 `확정`이 되면 → 위 플래그를 `true`로 바꾼다.
+- **출처 표기** — 각 컴포넌트 상태 행 끝의 `[출처]`:
+  `추출`(Figma variant/인터랙션에서 확인) · `확정`(사람이 결정) · `추정`(미검증 초기 기본값).
+  **`추정`이 하나라도 남아 있으면 플래그를 `true`로 두지 않는다.**
+
 ## 토큰
 
 > `00-figma-fetcher` 실행 후 `data/00-core-ui/`의 변수값으로 채운다. 미수집이면 먼저 fetcher를 실행한다.
@@ -44,47 +63,48 @@ description: 코어 UI의 디자인 시스템. 모든 화면에 공통 적용되
 
 ## 컴포넌트 상태 규칙 (전역 — 모든 화면 공통)
 
-> 값은 토큰 이름 참조. 아래는 코어 UI 수집 전 **초기 기본값**이며 수집 후 조정한다.
+> 값은 토큰 이름 참조. 아래는 코어 UI 수집 전 **초기 기본값**이며, 모든 행의 초기 **출처는 `추정`**이다.
+> "검증 상태" 절차에 따라 각 행을 `추출`(Figma) 또는 `확정`(사람)으로 바꾼다.
 
 ### 버튼
-| 상태 | 스타일 |
-|---|---|
-| default | bg `--color-primary`, text white, `--radius-md` |
-| hover | bg `--color-primary-dark`, `--transition-fast` |
-| active | scale 0.98 |
-| focus | ring-2 `--color-primary-light` |
-| disabled | opacity 0.5, cursor not-allowed |
-| loading | 텍스트 숨김, 중앙 spinner 표시 |
+| 상태 | 스타일 | 출처 |
+|---|---|---|
+| default | bg `--color-primary`, text white, `--radius-md` | 추정 |
+| hover | bg `--color-primary-dark`, `--transition-fast` | 추정 |
+| active | scale 0.98 | 추정 |
+| focus | ring-2 `--color-primary-light` | 추정 |
+| disabled | opacity 0.5, cursor not-allowed | 추정 |
+| loading | 텍스트 숨김, 중앙 spinner 표시 | 추정 |
 
 ### 인풋 필드
-| 상태 | 스타일 |
-|---|---|
-| default | border `--color-border`, bg white |
-| focus | border `--color-primary`, ring-2 `--color-primary-light` |
-| error | border `--color-red-500`, 하단에 에러 메시지 |
-| disabled | bg `--color-gray-50`, text `--color-text-secondary` |
-| read-only → edit 전환 | border 없는 텍스트 → border 있는 인풋으로, `--transition-normal` |
+| 상태 | 스타일 | 출처 |
+|---|---|---|
+| default | border `--color-border`, bg white | 추정 |
+| focus | border `--color-primary`, ring-2 `--color-primary-light` | 추정 |
+| error | border `--color-red-500`, 하단에 에러 메시지 | 추정 |
+| disabled | bg `--color-gray-50`, text `--color-text-secondary` | 추정 |
+| read-only → edit 전환 | border 없는 텍스트 → border 있는 인풋으로, `--transition-normal` | 추정 |
 
 ### 테이블/리스트 행
-| 상태 | 스타일 |
-|---|---|
-| default | bg white |
-| hover | bg `--color-gray-50`, cursor pointer |
-| selected | 좌측 border-4 `--color-primary`, bg `--color-blue-50` |
-| checkbox checked | 체크 표시 + 상단 배치 액션 버튼 활성화 |
+| 상태 | 스타일 | 출처 |
+|---|---|---|
+| default | bg white | 추정 |
+| hover | bg `--color-gray-50`, cursor pointer | 추정 |
+| selected | 좌측 border-4 `--color-primary`, bg `--color-blue-50` | 추정 |
+| checkbox checked | 체크 표시 + 상단 배치 액션 버튼 활성화 | 추정 |
 
 ### 모달/다이얼로그
-| 상태 | 스타일 |
-|---|---|
-| 진입 | backdrop fade-in `--transition-normal`, 모달 scale 0.95→1.0 + fade-in |
-| 퇴장 | 진입의 역순 |
+| 상태 | 스타일 | 출처 |
+|---|---|---|
+| 진입 | backdrop fade-in `--transition-normal`, 모달 scale 0.95→1.0 + fade-in | 추정 |
+| 퇴장 | 진입의 역순 | 추정 |
 
 ### 토스트/알림
-| 상태 | 스타일 |
-|---|---|
-| 성공 | bg `--color-green-50`, border `--color-green-500`, 체크 아이콘 |
-| 에러 | bg `--color-red-50`, border `--color-red-500`, 경고 아이콘 |
-| 자동 dismiss | 3초 후 fade-out |
+| 상태 | 스타일 | 출처 |
+|---|---|---|
+| 성공 | bg `--color-green-50`, border `--color-green-500`, 체크 아이콘 | 추정 |
+| 에러 | bg `--color-red-50`, border `--color-red-500`, 경고 아이콘 | 추정 |
+| 자동 dismiss | 3초 후 fade-out | 추정 |
 
 ## 타이포그래피
 

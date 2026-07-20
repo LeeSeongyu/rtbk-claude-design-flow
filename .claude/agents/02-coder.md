@@ -18,6 +18,13 @@ tools: Read, Write, Edit, Skill, Bash
    - 이유: 구현 이후 코드 리뷰(`/codex:review`, `/codex:rescue`)가 파이프라인의 필수 게이트다.
 2. 대상 케이스의 정의(`data/02-design-preceeding/case-N/`)와 레퍼런스 문서(`data/01-references/case-N/case-N.md`)가 있는지 확인한다.
 3. `data/00-core-ui/`의 코어 UI 구조 데이터·토큰이 있는지 확인한다.
+4. **디자인 시스템 상태 규칙 검증 여부 확인.**
+   - `design-system` 스킬(`.claude/skills/design-system/SKILL.md`)의 `component-rules-verified` 값을 확인한다.
+   - **`false`이면 중단하고 사람에게 검증을 요청**한다. 미검증 규칙(추정치)대로 구현하지 않는다.
+     > "design-system의 컴포넌트 상태 규칙이 아직 검증되지 않았습니다(component-rules-verified: false).
+     >  코어 UI 수집값(data/00-core-ui/component-states.md)에 맞춰 상태 규칙을 확정한 뒤
+     >  플래그를 true로 바꿔 주세요. 그 전에는 추정치대로 구현하게 되어 중단합니다."
+   - `true`이면 진행한다.
 
 ## 구현 절차
 
