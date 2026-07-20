@@ -8,7 +8,8 @@ Figma 디자인을 입력으로 받아, 레퍼런스 케이스를 문서화하�
 ```
 Figma URL
   └─▶ 00-figma-fetcher   구조 데이터 + 스크린샷 수집        → data/00-core-ui/
-  └─▶ 01-case-deriver    레퍼런스 문서화 → 케이스 도출 → 1차 채점 → data/01-references/, data/02-cases/
+  └─▶ (사람) 레퍼런스 문서 작성                              → data/01-references/case-N/case-N.md
+  └─▶ 01-case-deriver    케이스 도출 → 프롬프트 초안 → 1차 채점 → data/02-cases/
   └─▶ 02-coder           케이스별 화면 구현                  → data/03-code/
   └─▶ 코드 리뷰 오케스트레이션 (메인 세션)                  → data/04-review/
 ```
@@ -18,21 +19,21 @@ Figma URL
 | 에이전트 | 역할 | 산출물 |
 | --- | --- | --- |
 | `00-figma-fetcher` | Figma MCP로 구조 데이터를 가져오고 Playwright로 스크린샷 캡처 (읽기 전용) | `data/00-core-ui/` |
-| `01-case-deriver` | 레퍼런스 문서화(Step 0) → 케이스 도출(Step 1) → 결과 1차 채점(Step 2) | `data/01-references/`, `data/02-cases/` |
+| `01-case-deriver` | 레퍼런스 문서 확인(사람 작성, Step 0) → 케이스 도출(Step 1) → 프롬프트 초안 생성(Step 2) → 결과 1차 채점(Step 3) | `data/02-cases/` |
 | `02-coder` | 케이스별 화면을 실제 코드로 구현 | `data/03-code/` |
 
 ## 스킬
 
 | 스킬 | 역할 |
 | --- | --- |
-| `design-system` | 코어 UI 토큰·컴포넌트 규칙을 코드에 일관되게 적용 |
+| `design-system` | 코어 UI 토큰 + 컴포넌트 상태별 스타일·인터랙션을 한 번 정의(HOW). `02-coder`·`01-case-deriver`가 공통 참조 |
 | `visual-verdict` | 생성 화면을 레퍼런스와 비교해 score/verdict를 JSON으로 반환 (통과 기준 85점) |
 
 ## 데이터 레이아웃
 
 - `data/00-core-ui/` — Figma에서 수집한 코어 UI 구조 데이터와 스크린샷
-- `data/01-references/case-N/` — 레퍼런스 이미지와 `case-N.md`(출처·시나리오·기능·신뢰도)
-- `data/02-cases/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의)
+- `data/01-references/case-N/` — 레퍼런스 이미지와 **사람이 작성한** `case-N.md`(출처·시나리오·기능·신뢰도)
+- `data/02-cases/` — `case-screens.md`(케이스별 상태 대장) + `case-N/`(도출된 화면 정의 + `prompt.md` 프롬프트 초안)
 - `data/03-code/` — 구현된 코드
 - `data/04-review/` — `review-{N}.md` 코드 리뷰 결과
 
@@ -67,3 +68,5 @@ Figma URL
 - Figma에 대한 **쓰기 작업은 절대 하지 않는다** (읽기·스크린샷 전용).
 - 로그인 세션이 없으면 진행을 **중단하고 사람에게 안내**한다.
 - 필수 도구(Figma MCP, Playwright, Codex CLI 플러그인)가 없으면 중단하고 설치를 요청한다.
+- **`case-N.md`(레퍼런스 문서)는 사람이 작성한다.** 에이전트가 임의로 작성·덮어쓰지 않으며,
+  이미지가 있는데 문서가 없으면 진행을 중단하고 사람에게 작성을 요청한다.
