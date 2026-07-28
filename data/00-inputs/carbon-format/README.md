@@ -6,9 +6,8 @@
 Carbon v11대로 잡고, 실제 **값은 fruto Figma에서** 채웁니다.
 
 ## 넣을 것 (아래 중 하나)
-
-- Carbon v11 양식 문서/캡처/발췌 파일 (예: `carbon-v11-tokens.md`, 스크린샷 등), 또는
 - `carbon-v11.md`에 참고할 Carbon v11 문서 **URL**과 따라야 할 범위(색/타입/스페이싱/모션/컴포넌트 등)
+-**URL**: https://www.figma.com/design/rWE1PCtsuXVscRbJFkkqNa/-v11--Carbon-Design-System--Community-?node-id=58-2763&t=JPLXabsUiYL5Owsr-1
 
 ## 형식 vs 값 (헷갈리지 않게)
 

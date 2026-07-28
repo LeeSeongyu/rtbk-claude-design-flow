@@ -5,8 +5,8 @@
 
 ## Figma 파일
 
-- **URL**: (여기에 fruto Figma 파일/페이지 URL 붙여넣기)
-- **대상 페이지/프레임**: (토큰·컴포넌트가 정의된 위치)
+- **URL**: https://www.figma.com/design/YZOL3M3D0aOnz7rLjhMkwJ/Fruto?node-id=0-1&t=4rdTzqddEvhYET6A-1
+- **대상 페이지/프레임**: (토큰·컴포넌트가 정의된 위치 — 확인되면 기입)
 - **비고**: (읽을 때 참고할 점 — 예: 라이트/다크 변수 컬렉션 이름 등)
 
 > 비주얼(색·타이포·간격·컴포넌트 룩)의 단일 출처는 fruto입니다.
