@@ -1,124 +1,190 @@
 ---
 name: design-system
-description: RTBK Design System — 모든 화면에 공통 적용되는 비주얼 토큰과 컴포넌트 상태 규칙. 값의 출처는 fruto Figma, 문서의 형식·구조는 Carbon Design System v11 양식. 화면을 만들며 계속 확장되는 살아있는 문서. 02-design-system-builder가 owner, 03~06이 참조.
+description: RTBK Design System — Carbon Design System v11의 요소별 카탈로그(토큰·컴포넌트 구조)를 골격으로 삼고, fruto와 유사한 요소는 fruto 비주얼로 대체, 없는 것은 Carbon 기본값 유지. 화면을 만들며 확장되는 살아있는 문서. 02-design-system-builder가 owner, 03~06이 참조.
 ---
 
 # RTBK Design System
 
-RTBK의 모든 화면이 따르는 **비주얼 토큰과 컴포넌트 상태 규칙(HOW)**을 정의하는 살아있는 문서입니다.
+**골격 = Carbon Design System v11**(토큰 카테고리 + 컴포넌트 카탈로그). 각 요소에 대해:
 
-> **두 개의 출처**
-> - **값(색·타이포·간격·컴포넌트 룩)** ← fruto Figma 파일 (`data/00-inputs/fruto-design/fruto-source.md`)
-> - **형식·구조·토큰 네이밍·컴포넌트 분류·상태 체계** ← Carbon Design System v11 양식 (`data/00-inputs/carbon-format/`)
->
-> 즉 **fruto 값 × Carbon v11 형식 = RTBK Design System.** 값은 fruto, 짜임새는 Carbon v11.
+- **fruto에 유사 요소가 있으면 → fruto 비주얼로 대체(substitute).** 태그 `[fruto]`
+- **fruto에 없고 Carbon에만 있으면 → Carbon v11 기본값 유지.** 태그 `[carbon]`
+- **fruto가 Carbon과 형태가 다르면(적응 필요) → fruto 우선하되 차이 명시.** 태그 `[fruto-adapt]`
+- **아직 값 미확정(관찰 추정/미관찰) →** 태그 `[미확인]`
 
-> **관심사 분리** — 이 파일은 "컴포넌트가 어떻게 생기고 동작하는가(HOW)". "어떤 화면·흐름을
-> 거치는가(WHAT)"는 화면 정의/브리프가 담는다. "버튼 hover 색상"은 여기에 적는다.
+> 값 출처: 비주얼 값은 `data/02-design-system/fruto-visual-extraction.md`(관찰 추정). 구조·네이밍·기본값은 Carbon v11.
+> 정확한 hex/폰트/치수는 후속 확정 대상(사람 또는 특정 노드 정밀 추출).
+
+```
+component-rules-verified: false   # fruto 값이 관찰 추정치라 미확정. 정밀값 확정 시 true.
+```
 
 ## 살아있는 문서 (Living)
 
-- 이 시스템은 **한 번에 완성되지 않는다.** 화면을 만들며(Step 3~6) 새 컴포넌트·토큰이 필요하면
-  **여기에 추가되며 계속 갱신**된다.
-- 추가·변경의 owner는 `02-design-system-builder`다. 다른 에이전트(03/05/06)는 필요한 새 요소를
-  `data/02-design-system/needed-additions.md`에 기록하고 추가를 요청한다 — **직접 스타일을 지어내지 않는다.**
-- 모든 추가·변경은 아래 **변경 로그**에 남긴다.
-
-## 값의 규칙 (출처 표기)
-
-- 각 값/행 끝에 `[출처]`를 표기: `추출(fruto)` · `확정(사람)` · `미확인`(fruto에 없어 미정).
-- **원시 hex/px를 근거 없이 박지 않는다.** `미확인`은 `미확인`으로 남기고 사람이 확정한다.
-- 형식(카테고리·네이밍·상태 체계)은 Carbon v11 양식을 따르되, 실제 값은 fruto에서 온다.
-
-```
-component-rules-verified: false   # fruto 추출·확정이 끝나 미확인이 없으면 true
-```
+- 화면(Step 3~6)을 만들며 필요한 컴포넌트가 나오면 **Carbon 카탈로그에서 해당 요소를 찾아** 추가하고,
+  fruto 유사물이 있으면 대체, 없으면 Carbon 기본값을 쓴다. 새 요소 요청은 `data/02-design-system/needed-additions.md`.
+- 모든 추가·변경은 하단 **변경 로그**에 기록.
 
 ---
 
-# 아래 구조는 Carbon v11 양식에 맞춰 채운다 (값은 fruto 추출)
+# 1. Foundations (Carbon 구조 · fruto 값)
 
-> `02-design-system-builder`가 `data/00-inputs/carbon-format/`의 실제 양식을 읽어 이 골격을
-> 확정·조정한다. 아래는 Carbon v11의 일반적 조직을 반영한 뼈대이며, 값은 모두 fruto에서 채운다.
+## 1.1 Color tokens (Carbon 역할 기반 네이밍 · fruto 값 대체) `[fruto]`
 
-## 1. 색상 토큰 (Color)
+> Carbon의 역할 토큰 네이밍을 쓰고, 값은 fruto 관찰값으로 매핑. 값은 모두 `[미확인]`(관찰 추정) — 정밀 확정 필요.
 
-> Carbon식 역할 기반 토큰(예: background / layer / field / border / text / interactive / support).
-> 각 역할 토큰의 값은 fruto 팔레트에서 매핑한다.
-
-| 역할 토큰 | 값(fruto) | 출처 |
+| Carbon 토큰 | fruto 값(추정) | 비고 |
 |---|---|---|
-| `$background` | (미추출) | 미확인 |
-| `$layer` | (미추출) | 미확인 |
-| `$field` | (미추출) | 미확인 |
-| `$border-subtle` | (미추출) | 미확인 |
-| `$text-primary` | (미추출) | 미확인 |
-| `$text-secondary` | (미추출) | 미확인 |
-| `$interactive` (primary) | (미추출) | 미확인 |
-| `$support-error/success/warning` | (미추출) | 미확인 |
+| `$background` | `#EEF0FA`(인증) / `#FFFFFF`(앱) | 라이트 라벤더 배경 |
+| `$layer-01` | `#FFFFFF` | 카드·콘텐츠 표면 |
+| `$layer-02` | `#F1F2F8` | 인풋 fill·보조 표면 |
+| `$field-01` | `#F1F2F8` / `#FFFFFF` | 인풋 배경 |
+| `$border-subtle` | `#E9EAF0` | 구분선·인풋 보더 |
+| `$text-primary` | `#22242F` | 딥네이비 |
+| `$text-secondary` | `#6B7280` | 보조 텍스트 |
+| `$text-placeholder` | `#A0A3B1` | 플레이스홀더/disabled |
+| `$text-on-color` | `#FFFFFF` | 컬러 배경 위 텍스트 |
+| `$link-primary` | `#5A5CE0` | 인디고 링크 |
+| `$interactive` / `$button-primary` | `#5A5CE0` | **브랜드 Primary(인디고)** |
+| `$button-primary-hover` | `#4A4CD0`(추정) | hover |
+| `$support-success` | `#22C55E` | 정상 |
+| `$support-warning` | `#EAB308` | 경고 |
+| `$support-error` | `#EF4444` | 위험 |
+| `$layer-accent`(테이블 헤더) | `#EEEFF9` | 라이트 라벤더 헤더 |
 
-## 2. 타이포그래피 (Type)
+- **테마**: Carbon은 White/Gray10/Gray90/Gray100. RTBK는 **White(라이트) 단일**로 시작 `[fruto]`. 다크는 후속 `[carbon]`.
+- **차트 categorical** `[fruto]`: 인디고 `#5A5CE0` / 앰버 / 코랄 / 그린 / 퍼플 / 틸 (6색, `@carbon/charts` 팔레트를 fruto 색으로 대체).
 
-> Carbon식 타입 세트(예: body-01, heading-01…). 폰트·사이즈·weight·line-height는 fruto에서.
+## 1.2 Typography (Carbon type set · fruto 값) `[fruto-adapt]`
 
-| 타입 세트 | 폰트/사이즈/weight/lh | 출처 |
+- **폰트**: Pretendard 계열(추정) `[미확인]`. Carbon 기본은 IBM Plex Sans → **fruto 폰트로 대체**.
+- Carbon type set 네이밍 유지, 값은 fruto 스케일로:
+
+| Carbon set | 용도 | fruto 값(추정) |
 |---|---|---|
-| `body-01` | (미추출) | 미확인 |
-| `heading-01` | (미추출) | 미확인 |
-| `display-01` | (미추출) | 미확인 |
+| `display-01` | 페이지 타이틀 | ~24–28 / Bold |
+| `heading-03` | 섹션·카드 타이틀 | ~18–20 / SemiBold |
+| `heading-01` | 서브 타이틀 | ~16 / Medium |
+| `body-01` | 본문 | ~14–15 / Regular, lh ≥ 1.5 |
+| `label-01` | 라벨·네비 | ~13–15 / Medium |
+| `caption-01` | 캡션·메타 | ~12–13 / Regular |
 
-## 3. 스페이싱 (Spacing)
+## 1.3 Spacing (Carbon spacing scale 유지) `[carbon]`
 
-> Carbon식 스페이싱 스케일(예: spacing-01 … spacing-13). 값은 fruto 간격 체계에서.
+- Carbon `spacing-01`(0.125rem) … `spacing-13`(10rem), 8px mini-unit 기반. fruto도 8px 리듬이라 **Carbon 스케일 그대로 사용**.
 
-| 스텝 | 값(fruto) | 출처 |
-|---|---|---|
-| `spacing-01` … `spacing-13` | (미추출) | 미확인 |
+## 1.4 Radius `[fruto-adapt]`
 
-## 4. 기타 토큰
+- Carbon은 각진(작은 radius) 편 → **fruto는 더 둥금**으로 대체:
+  - 컨트롤(버튼·인풋): 인증은 pill, 앱 내 ~12–16px. `radius-control ≈ 12` (인증 variant는 pill) `[미확인]`
+  - 카드·테이블: ~8–12px `radius-container ≈ 10`
+  - 칩/배지: pill
 
-| 토큰 | 값(fruto) | 출처 |
-|---|---|---|
-| radius (sm/md/lg) | (미추출) | 미확인 |
-| motion (fast/moderate + easing) | (미추출) | 미확인 |
-| elevation/shadow | (미추출) | 미확인 |
+## 1.5 Motion `[carbon]`
 
-## 5. 컴포넌트 상태 규칙
+- Carbon motion 토큰 유지: `fast-01/02`, `moderate-01/02`, easing `productive`/`expressive`. (fruto 미관찰 → Carbon 기본)
 
-> Carbon식 컴포넌트별 variant·state 구조로 정리. 값은 위 토큰 참조(= fruto).
+## 1.6 Grid / Elevation `[carbon]`
 
-### Button (variant: primary/secondary/ghost/danger …)
-| state | 스타일(토큰 참조) | 출처 |
-|---|---|---|
-| enabled | (채움) | 미확인 |
-| hover | (채움) | 미확인 |
-| focus | (채움) | 미확인 |
-| active | (채움) | 미확인 |
-| disabled | (채움) | 미확인 |
+- Carbon 2x Grid, elevation(그림자) 토큰 유지. fruto 카드 그림자 미세 → Carbon `[미확인]`.
 
-### Input / Field
-| state | 스타일 | 출처 |
-|---|---|---|
-| enabled / focus / error / disabled | (채움) | 미확인 |
+---
 
-### (이후 화면을 만들며 필요한 컴포넌트를 여기에 추가)
+# 2. Components (Carbon 카탈로그 순 · fruto 대체 표기)
 
-## 6. 반응형 / 접근성
+> 각 컴포넌트: **상태별 스타일은 위 토큰 참조.** hover/focus/pressed 등 fruto 미관찰 상태는 Carbon 기본 규칙 사용.
 
-- Carbon 2x Grid 원칙 참고, mobile-first, 상대 단위. 터치 타겟 최소 44×44px.
-- 대비·포커스 표시·시맨틱 마크업 기본 준수.
+## 2.1 Button `[fruto]`
+- Variant(Carbon): primary / secondary / tertiary / ghost / danger.
+- fruto 대체: **primary = 인디고(`$button-primary`) + 흰 텍스트 + 둥근(인증 pill)**. disabled = `$layer-02` bg + `$text-placeholder`(관찰됨).
+- hover/focus/active: Carbon 규칙(hover=진한 인디고, focus=focus ring) `[carbon 기본]`.
+- secondary/tertiary/ghost/danger: Carbon 기본 구조 + fruto 색 대입.
+
+## 2.2 Text Input / Textarea `[fruto]`
+- fruto: 둥근 필드, 기본 `$field-01`, 플레이스홀더 `$text-placeholder`. 두 톤 관찰(흰색/회색fill) → 기본=회색fill.
+- Password: reveal(눈) 아이콘 관찰.
+- focus/error/disabled 상태: Carbon 규칙 + fruto 색(error=`$support-error`) `[carbon 기본]`.
+
+## 2.3 Checkbox `[fruto-adapt]`
+- fruto는 **원형 체크**(Carbon은 사각) — fruto 형태 우선, 차이 명시. checked=인디고.
+
+## 2.4 Radio Button `[carbon]`
+- fruto 미관찰 → Carbon 기본(색만 인디고).
+
+## 2.5 Toggle / Slider / Number input / File uploader `[carbon]`
+- fruto 미관찰 → Carbon v11 기본 유지(브랜드 색만 인디고 대입).
+
+## 2.6 Dropdown / Select `[fruto]`
+- fruto: **pill형 필터 드롭다운**(라벨 + ▾, 라이트 보더). Carbon Dropdown 구조 + fruto pill 스타일.
+
+## 2.7 Search `[fruto]`
+- fruto: 둥근 인풋 + 검색 아이콘("이름 검색"). Carbon Search 구조 + fruto 스타일.
+
+## 2.8 Tabs `[fruto]`
+- fruto: **밑줄형 탭**, active=인디고 텍스트+인디고 밑줄. 2차 탭(서브탭)도 동일 패턴. Carbon "line" Tabs로 매핑.
+
+## 2.9 Tag / Badge `[fruto]`
+- fruto: **인디고 pill 배지**(예 D-19). Carbon Tag → 인디고 대체. 상태 Tag는 아래 Status.
+
+## 2.10 Status indicator `[fruto]`
+- fruto: **색점 + 텍스트** — 정상(녹색)/경고(앰버)/위험(빨강). Carbon엔 정확 대응 없음 → fruto 패턴 채택(Carbon Tag/“status” 응용).
+
+## 2.11 Data Table `[fruto]`
+- fruto: 정렬 가능 헤더(▾), 행 하단 구분선, 라이트 라벤더 헤더(`$layer-accent`), 합계행 강조, 셀 내 status/badge.
+- Carbon Data Table 구조 + fruto 스타일. 정렬/선택/확장 등 세부는 Carbon 기본.
+
+## 2.12 Pagination `[carbon]`
+- fruto 미관찰(리스트 "총 510명"만) → Carbon Pagination 기본 + 인디고.
+
+## 2.13 Date Picker `[fruto]`
+- fruto: **캘린더 팝오버**(월 네비, 오늘=인디고, 시작/종료일 인풋) + **퀵레인지 칩**(오늘/어제/이번주/지난주/이번달), 취소/확인 버튼. Carbon Date Picker(range) + fruto 스타일.
+
+## 2.14 Overflow Menu `[fruto]`
+- fruto: `…` 오버플로우. Carbon Overflow Menu.
+
+## 2.15 Modal / Dialog `[fruto-adapt]`
+- fruto 팝오버(피커/메뉴) 관찰, 풀 Modal 미관찰 → Carbon Modal 구조 + fruto 색·radius. RTBK 팝업(검토/Note 등) 다수 → 중요.
+
+## 2.16 Notification / Toast `[carbon]`
+- fruto 미관찰 → Carbon Inline/Toast Notification 기본 + support 색(success/warning/error) fruto 값.
+
+## 2.17 Progress Indicator (Stepper) `[fruto]`
+- fruto: **번호 스텝퍼**(1–5). 완료=인디고 외곽+인디고 번호, 현재=인디고 채움+흰 번호+굵은 라벨, 이후=회색. Carbon Progress Indicator로 매핑.
+
+## 2.18 Content Switcher / Segmented `[fruto]`
+- fruto: 남/여 같은 세그먼트 선택. Carbon Content Switcher.
+
+## 2.19 Breadcrumb / Link (back) `[fruto]`
+- fruto: `‹ 목록으로` 뒤로가기 링크. Carbon Breadcrumb/Link + chevron.
+
+## 2.20 UI Shell (Header / Nav) `[fruto]`
+- fruto: 상단 헤더 — 로고 + 가로 네비(active=인디고 텍스트+밑줄) + 우측 사용자 인사·아바타. Carbon UI Shell Header로 매핑.
+  - RTBK 적용: GNB에 `부가가치세` / `홈택스 연동`(업체) 같은 위계, 회계 측 하위 탭.
+
+## 2.21 Charts `[fruto]`
+- fruto: 막대차트 + 범례(색점). Carbon `@carbon/charts` + fruto categorical 팔레트.
+
+## 2.22 그 외 Carbon 컴포넌트 `[carbon]`
+- Accordion / Tile / Tooltip / Loading / Structured list / Code snippet 등 fruto 미관찰 → **Carbon v11 기본 유지**, 브랜드 색(인디고)·radius·폰트만 fruto 토큰 대입.
 
 ---
 
 ## 사용 규칙
 
-- **`02-design-system-builder`** — 이 파일의 owner. fruto 추출 + Carbon v11 형식으로 채우고 확장한다.
-- **`03-screen-designer`** — 비주얼은 여기 참조. 없는 컴포넌트는 `needed-additions.md`에 기록.
-- **`05-figma-builder`** — Figma 빌드 시 여기 토큰/변수 사용. 없는 값 신규 생성 금지(DS에 먼저 추가).
-- **`06-coder`** — Tailwind 토큰을 여기 토큰과 매핑. 임의 hex/px 금지.
+- **`05-figma-builder`** — Figma 빌드 시 여기 토큰/컴포넌트 사용. `[carbon]` 요소는 Carbon 기본 형태, `[fruto]`는 fruto 스타일.
+- **`06-coder`** — 구현 스택: Next.js + Tailwind. Carbon 토큰 네이밍을 Tailwind 토큰으로 매핑, 값은 위 표(fruto). `@carbon/react`를 쓸 경우 테마 토큰을 fruto 값으로 오버라이드. 임의 hex 금지.
+- **`04-brief-writer`** — 브리프에 이 토큰/컴포넌트를 인용.
+- **새 컴포넌트** — Carbon 카탈로그에서 찾아 여기 추가 후 사용.
+
+## 확정 필요 (우선순위)
+
+1. **정확한 색 hex** (관찰 추정 → 정밀값). 특히 Primary 인디고, support 3색, 배경/보더.
+2. **폰트 패밀리**(Pretendard? 확인).
+3. **Radius·컨트롤 높이·간격 수치**.
+4. **인터랙션 상태 색**(hover/focus/pressed) — 미관찰분.
 
 ## 변경 로그 (Living)
 
 | 날짜 | 변경 | 출처/사유 | 담당 |
 |---|---|---|---|
-| (초기) | 골격 생성 (Carbon v11 형식, fruto 값 대기) | Step 2 | 02-design-system-builder |
+| 2026-07-28 | 초기 구축: Carbon v11 골격 + fruto 관찰값 대체 (로그인/회원가입/응답자목록/데이터통계 4화면 근거) | Step 2 | 02-design-system-builder |
